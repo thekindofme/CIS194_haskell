@@ -34,12 +34,15 @@ type STemplate = Template
 
 -- Write your code below:
 --
--- Example: formableBy "fun" [’x’,’n’,’i’,’f’,’u’,’e’,’l’] == True
+-- Example: formableBy "fun" ['x','n','i','f','u','e','l'] == True
 -- Example: formableBy "haskell" [’k’,’l’,’e’,’h’,’a’,’l’,’s’] == True
 -- Example: formableBy "haskell" [’k’,’l’,’e’,’h’,’a’,’y’,’s’] == False
 
 formableBy :: String -> Hand -> Bool
-formableBy = undefined
+formableBy [] _ = True
+formableBy (first_letter:other_letters) letter_bank
+  | (first_letter `elem` letter_bank) = (formableBy other_letters (delete first_letter letter_bank))
+  | otherwise = False
 
 wordsFrom :: Hand -> [String]
 wordsFrom hand = filter (`formableBy` hand) allWords
