@@ -64,6 +64,8 @@ wordFitsTemplate :: Template -> Hand -> String -> Bool
 wordFitsTemplate template hand word
   | template == word = True
 
+wordFitsTemplate [] _ _ = False
+
 wordFitsTemplate template hand [] = False
 
 wordFitsTemplate (first_letter_of_the_template:template) hand (first_lettter_of_the_word:word)
@@ -73,3 +75,13 @@ wordFitsTemplate (first_letter_of_the_template:template) hand (first_lettter_of_
   where
     first_lettter_of_the_word_found_in_hand = first_lettter_of_the_word `elem` hand
     first_letter_of_the_template_is_a_wildcard = first_letter_of_the_template == '?'
+
+
+
+--  Example: wordsFittingTemplate "??r?" ['c','x','e','a','b','c','l'] ==["acre","bare","carb","care","carl","earl"]
+
+wordsFittingTemplate :: Template -> Hand -> [String]
+wordsFittingTemplate template hand = filter (\w -> wordFitsTemplate template hand w) allWords
+
+--map (\w -> wordFitsTemplate "??r?" ['c','x','e','a','b','c','l'] w) (wordsFrom ['c','x','e','a','b','c','l'])
+--map (\w -> w) (wordsFrom ['c','x','e','a','b','c','l'])
