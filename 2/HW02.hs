@@ -44,5 +44,32 @@ formableBy (first_letter:other_letters) letter_bank
   | (first_letter `elem` letter_bank) = (formableBy other_letters (delete first_letter letter_bank))
   | otherwise = False
 
+
+
+-- Example: wordsFrom [’a’,’b’,’c’,’d’] == ["ab","ad","ba","bad","cab","cad","dab"]
+-- Example: wordsFrom [’h’,’e’,’l’,’l’,’o’] == [ "eh","el","ell","he","hell","hello","helo", "ho","hoe","hole","lo","oe","oh","ole" ]
+
 wordsFrom :: Hand -> [String]
 wordsFrom hand = filter (`formableBy` hand) allWords
+
+
+
+-- Example: wordFitsTemplate "??r?" ['c','x','e','a','b','c','l'] "care" == True
+-- Example: wordFitsTemplate "??r?" ['c','x','e','w','b','c','l'] "care" == False
+-- Example: wordFitsTemplate "??r?" ['c','x','e','a','b','c','l'] "car" == False
+-- Example: wordFitsTemplate "let" ['x','x'] "let" == True
+
+wordFitsTemplate :: Template -> Hand -> String -> Bool
+
+wordFitsTemplate template hand word
+  | template == word = True
+
+wordFitsTemplate template hand [] = False
+
+wordFitsTemplate (first_letter_of_the_template:template) hand (first_lettter_of_the_word:word)
+  | first_letter_of_the_template == first_lettter_of_the_word = wordFitsTemplate template hand word
+  | first_letter_of_the_template_is_a_wildcard && first_lettter_of_the_word_found_in_hand = wordFitsTemplate template (delete first_lettter_of_the_word hand) word
+  | otherwise = False
+  where
+    first_lettter_of_the_word_found_in_hand = first_lettter_of_the_word `elem` hand
+    first_letter_of_the_template_is_a_wildcard = first_letter_of_the_template == '?'
