@@ -85,3 +85,15 @@ wordsFittingTemplate template hand = filter (\w -> wordFitsTemplate template han
 
 --map (\w -> wordFitsTemplate "??r?" ['c','x','e','a','b','c','l'] w) (wordsFrom ['c','x','e','a','b','c','l'])
 --map (\w -> w) (wordsFrom ['c','x','e','a','b','c','l'])
+
+
+
+
+-- scrabbleValue :: Char -> Int that gives the point value of any letter.
+--
+-- Example: scrabbleValueWord "care" == 6
+-- Example: scrabbleValueWord "quiz" == 22
+
+scrabbleValueWord :: String -> Int
+scrabbleValueWord [] = 0
+scrabbleValueWord letters = sum (map (\l -> (scrabbleValue l)) letters)
