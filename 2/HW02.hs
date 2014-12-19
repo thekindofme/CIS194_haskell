@@ -97,3 +97,25 @@ wordsFittingTemplate template hand = filter (\w -> wordFitsTemplate template han
 scrabbleValueWord :: String -> Int
 scrabbleValueWord [] = 0
 scrabbleValueWord letters = sum (map (\l -> (scrabbleValue l)) letters)
+
+
+
+
+-- Example: bestWords (wordsFittingTemplate "??r?" ['c','x','e','a','b','c','l']) == ["carb"]
+-- Example: bestWords ["cat", "rat", "bat"] == ["bat","cat"]
+-- Example: bestWords [] == []
+
+bestWords :: [String] -> [String]
+bestWords [] = []
+bestWords words = (bestWordsHelper words [] 0)
+
+bestWordsHelper :: [String] -> [String] -> Int -> [String]
+
+bestWordsHelper [] best_words _ = best_words
+
+bestWordsHelper (word: words) best_words max
+  | word_score < max  = bestWordsHelper words best_words max
+  | word_score == max = bestWordsHelper words (word : best_words) max
+  | word_score > max  = bestWordsHelper words [word] word_score
+  where
+    word_score = (scrabbleValueWord word)
