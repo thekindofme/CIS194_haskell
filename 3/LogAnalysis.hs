@@ -40,3 +40,9 @@ readTimestamp timestamp = read timestamp
 readError :: String -> Int
 readError severity = read severity :: Int
 
+
+--Exercise 2
+
+validMessagesOnly :: [MaybeLogMessage] -> [LogMessage]
+validMessagesOnly [] = []
+validMessagesOnly logs = [log | ValidLM log <- logs]
