@@ -46,3 +46,9 @@ readError severity = read severity :: Int
 validMessagesOnly :: [MaybeLogMessage] -> [LogMessage]
 validMessagesOnly [] = []
 validMessagesOnly logs = [log | ValidLM log <- logs]
+
+
+--Exercise 3
+
+parse :: String -> [LogMessage]
+parse log = validMessagesOnly $ map parseMessage $ lines log
